@@ -1,7 +1,33 @@
+import React from "react";
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 import "./styles.css";
 
-const data = [
+// Define the data type
+interface DataType {
+  name: string;
+  value: number;
+}
+
+// Define the props for the customized label
+interface RenderCustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+  index: number;
+}
+
+// Define the props for the custom tooltip
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{ name: string; value: number }>;
+  label?: string;
+}
+
+// Data for the Pie chart
+const data: DataType[] = [
   { name: "billdeskCommission", value: 1000 },
   { name: "ImplementFees", value: 200 },
   { name: "BookletCommission", value: 200 },
@@ -12,6 +38,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const RADIAN = Math.PI / 180;
 
+// Customized label renderer
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -19,8 +46,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index,
-}: any) => {
+}: RenderCustomizedLabelProps) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -38,7 +64,8 @@ const renderCustomizedLabel = ({
   );
 };
 
-const CustomTooltip = ({ active, payload }: any) => {
+// Custom tooltip renderer
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const { name, value } = payload[0];
     return (
@@ -59,32 +86,30 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-export default function PieChartComponent() {
+const PieChartComponent: React.FC = () => {
   return (
     <div>
       <h3 style={{ marginTop: "50px" }}>Revenue Breakdown</h3>
-      <PieChart width={500} height={600} barSize={1000}>
+      <PieChart width={500} height={600}>
         <Pie
           data={data}
           cx={200}
           cy={200}
           labelLine={false}
           label={renderCustomizedLabel}
-          //   outerRadius={80}
+          outerRadius={80}
           fill="#8884d8"
           dataKey="value"
         >
-          {data.map((entry, index) => (
+          {data.map((_, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
         <Legend
           layout="horizontal"
-          //   align="center"
           verticalAlign="bottom"
           wrapperStyle={{
-            // paddingTop: "20px",
             top: 400,
             bottom: 0,
             left: 0,
@@ -100,4 +125,6 @@ export default function PieChartComponent() {
       </PieChart>
     </div>
   );
-}
+};
+
+export default PieChartComponent;
