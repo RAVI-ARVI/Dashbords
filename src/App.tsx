@@ -1,7 +1,12 @@
 import "./App.css";
+import BarChartComponent from "./components/BarChart";
 
 function App() {
-  return <>Test Deployment</>;
+  return (
+    <>
+      <BarChartComponent />
+    </>
+  );
 }
 
 export default App;
