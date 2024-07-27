@@ -125,12 +125,12 @@ const formatNumber = (num: number) => `₹${num.toLocaleString()}`;
 const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     const totalExpenses = payload
-      .filter((item: any) => item.stackId === "expenses")
-      .reduce((acc: number, item: any) => acc + item.value, 0);
+      .filter((item: any) => item.payload.totalExpenses)
+      .reduce((acc: number, item: any) => acc + item.payload.totalExpenses, 0);
 
     const totalIncome = payload
-      .filter((item: any) => item.stackId === "income")
-      .reduce((acc: number, item: any) => acc + item.value, 0);
+      .filter((item: any) => item.payload.totalIncome)
+      .reduce((acc: number, item: any) => acc + item.payload.totalIncome, 0);
 
     return (
       <div className="custom-tooltip">
@@ -155,7 +155,7 @@ const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
 const BarChartComponent: React.FC = () => {
   return (
     <div>
-      <h2>Office Expenses and Income</h2>
+      <h2>Campx Expenses and Income</h2>
       <BarChart
         width={1000}
         height={500}
@@ -164,7 +164,7 @@ const BarChartComponent: React.FC = () => {
           top: 20,
           right: 30,
           left: 20,
-          bottom: 5,
+          bottom: 50,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
