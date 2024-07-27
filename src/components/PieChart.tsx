@@ -97,7 +97,7 @@ const PieChartComponent: React.FC = () => {
           cy={200}
           labelLine={false}
           label={renderCustomizedLabel}
-          outerRadius={80}
+          //   outerRadius={80}
           fill="#8884d8"
           dataKey="value"
         >
